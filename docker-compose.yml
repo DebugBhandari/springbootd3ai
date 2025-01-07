@@ -10,14 +10,19 @@ services:
       SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/jwt_security
       SPRING_DATASOURCE_USERNAME: Deerock
-      SPRING_DATASOURCE_PASSWORD: <your_password>
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}  # Use the environment variable for password
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}        # Use environment variable for Google Client ID
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}  # Use environment variable for Google Client Secret
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}  # Use environment variable for Stripe secret key
+      STRIPE_PRICE_ID: ${STRIPE_PRICE_ID}  # Use environment variable for Stripe price ID
     depends_on:
       - db
+
   db:
     image: postgres:13
     environment:
       POSTGRES_USER: Deerock
-      POSTGRES_PASSWORD: <your_password>
+      POSTGRES_PASSWORD: ${DB_PASSWORD}  # Use environment variable for password
       POSTGRES_DB: jwt_security
     ports:
       - "5432:5432"

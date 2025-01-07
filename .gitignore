@@ -49,13 +49,6 @@ build/
 
 # --- Spring Boot Configuration ---
 
-# Application properties and YAML files (if they contain sensitive information)
-src/main/resources/application.yaml
-src/main/resources/application.yml
-src/main/resources/application.properties
-src/main/resources/application-*.yml
-src/main/resources/application-*.yaml
-src/main/resources/application-*.properties
 
 # Spring Boot Devtools (if used)
 .spring-boot-devtools.properties

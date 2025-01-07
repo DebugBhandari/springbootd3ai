@@ -1,0 +1,48 @@
+ # Spring Boot Configuration
+spring:
+    main:
+      allow-circular-references: true
+    datasource:
+        url: jdbc:postgresql://localhost:5432/jwt_security
+        driver-class-name: org.postgresql.Driver
+        username: Deerock
+        password:
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show_sql: true
+        properties:
+            hibernate:
+                format_sql: true
+        database: POSTGRESQL
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+    security:
+      oauth2:
+        client:
+          registration:
+                google:
+                    client-secret: ${GOOGLE_CLIENT_SECRET}
+                    client-id: ${GOOGLE_CLIENT_ID}
+                    scope:
+                       - email
+                       - profile
+                    redirect-uri: "{baseUrl}/login/oauth2/code/google"
+                    authorization-grant-type: authorization_code
+                    client-name: Google
+          provider:
+                google:
+                    authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+                    token-uri: https://oauth2.googleapis.com/token
+                    user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+                    user-name-attribute: sub
+#Stripe Configurations:
+stripe:
+    secret:
+        key: ${STRIPE_SECRET_KEY}
+    price:
+         id: ${STRIPE_PRICE_ID}
+
+base:
+    url: https://d3spring.jobd.link
+client:
+    url: https://d3spring.jobd.link
