@@ -1,0 +1,135 @@
+# --- General Files ---
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Compiled bytecode
+*.class
+
+# Generated files
+bin/
+out/
+
+# IDE-specific files (e.g., Eclipse, IntelliJ IDEA)
+*.iml
+*.ipr
+*.iws
+.idea/
+*.project
+*.classpath
+*.factorypath
+.settings/
+
+# OS-specific files
+.DS_Store  # macOS
+Thumbs.db  # Windows
+*.swp      # Linux swap files
+
+# --- Java / Maven / Gradle ---
+
+# Maven target directory
+target/
+
+# Gradle build directories
+build/
+.gradle/
+!gradle-wrapper.jar
+
+# Maven and Gradle caches
+.mvn/
+.mvnw*
+.gradle/
+.gradle-cache/
+
+# --- Spring Boot Configuration ---
+
+# Application properties and YAML files (if they contain sensitive information)
+src/main/resources/application.yaml
+src/main/resources/application.yml
+src/main/resources/application.properties
+src/main/resources/application-*.yml
+src/main/resources/application-*.yaml
+src/main/resources/application-*.properties
+
+# Spring Boot Devtools (if used)
+.spring-boot-devtools.properties
+
+# --- Security ---
+
+# Keys and secrets
+*.jks
+*.p12
+*.pem
+*.key
+*.crt
+*.der
+*.pfx
+
+# Sensitive environment variables (if used)
+.env
+
+# --- Tooling ---
+
+# IntelliJ IDEA-specific files
+.idea/
+*.iml
+*.iws
+.idea_modules/
+
+# Eclipse-specific files
+*.classpath
+*.project
+.settings/
+
+# NetBeans-specific files
+nbproject/
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+*.nb-gradle/
+
+# VSCode-specific files
+.vscode/
+
+# --- Docker ---
+
+# Docker Compose override files
+docker-compose.override.yml
+
+# Local Dockerfiles (if any sensitive data is hardcoded)
+Dockerfile.local
+
+# Docker cache and build files
+**/.docker/
+docker-compose.override.yml
+*.tar
+*.tar.gz
+.dockerignore
+
+# --- Operating System Files ---
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows system files
+Thumbs.db
+Desktop.ini
+
+# --- Testing ---
+
+# Test reports
+*.xml
+*.html
+*.json
+/reports/
+src/main/resources/application.yml
