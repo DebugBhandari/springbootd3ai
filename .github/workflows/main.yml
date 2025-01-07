@@ -1,0 +1,49 @@
+name: CI/CD Pipeline for Spring Boot Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '22.0.2'
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t myapp:latest .
+
+      - name: Push Docker image
+        run: |
+          docker tag myapp:latest myrepo/myapp:latest
+          docker push myrepo/myapp:latest
+
+      - name: Deploy to Production Server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /path/to/your/project
+            docker-compose down
+            docker-compose up -d --build
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_PRICE_ID: ${{ secrets.STRIPE_PRICE_ID }}
