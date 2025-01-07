@@ -1,30 +1,44 @@
-# Use OpenJDK as the base image
-FROM openjdk:17-jdk-slim AS build
+# Use official Maven image (includes JDK and Maven)
+FROM maven:3.8.6-openjdk-22-slim AS build
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the pom.xml and download dependencies
+# Copy pom.xml and download dependencies
 COPY pom.xml .
 RUN mvn dependency:go-offline
 
 # Copy the rest of the project
 COPY src ./src
 
-# Package the application using Maven
-RUN mvn clean package -DskipTests
+# Build the Java application
+RUN mvn clean install
 
-# Use a smaller image to run the app
-FROM openjdk:17-jdk-slim
+# Use Node.js base image for building the Node.js application
+FROM node:20 AS node-builder
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the JAR file from the build stage
-COPY --from=build /app/target/*.jar app.jar
+# Copy package.json and install dependencies
+COPY package*.json ./
+RUN npm install
 
-# Expose the port the app runs on
+# Copy the rest of the app source code
+COPY . .
+
+# Build the Node.js app
+RUN npm run build
+
+# Use a clean base image (Java + Node.js)
+FROM openjdk:22-jdk-slim
+
+WORKDIR /app
+
+# Copy both Java and Node.js build artifacts
+COPY --from=build /app/target /app/target
+COPY --from=node-builder /app /app
+
+# Expose the port
 EXPOSE 8080
 
-# Run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Start the Java application (adjust the path to your JAR file)
+CMD ["java", "-jar", "/app/target/your-app.jar"]
