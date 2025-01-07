@@ -125,11 +125,4 @@ docker-compose.override.yml
 Thumbs.db
 Desktop.ini
 
-# --- Testing ---
 
-# Test reports
-*.xml
-*.html
-*.json
-/reports/
-src/main/resources/application.yml
