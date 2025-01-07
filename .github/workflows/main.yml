@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /path/to/your/project
+            cd /var/www/springd3.jobd.link
             docker-compose down
             docker-compose up -d --build
         env:
