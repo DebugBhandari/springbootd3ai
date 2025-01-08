@@ -24,12 +24,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t myapp:latest .
+          docker build -t springd3:latest .
 
       - name: Push Docker image
         run: |
-          docker tag myapp:latest myrepo/myapp:latest
-          docker push myrepo/myapp:latest
+          docker tag springd3:latest myrepo/springd3:latest
+          docker push myrepo/springd3:latest
 
       - name: Deploy to Production Server
         uses: appleboy/ssh-action@v0.1.7
