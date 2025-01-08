@@ -1,5 +1,5 @@
 # Use official Maven image (includes JDK and Maven)
-FROM maven:3.8.6-openjdk-22-slim AS build
+FROM maven:3.3-jdk-8 AS build
 
 WORKDIR /app
 
@@ -13,31 +13,15 @@ COPY src ./src
 # Build the Java application
 RUN mvn clean install
 
-# Use Node.js base image for building the Node.js application
-FROM node:20 AS node-builder
-
-WORKDIR /app
-
-# Copy package.json and install dependencies
-COPY package*.json ./
-RUN npm install
-
-# Copy the rest of the app source code
-COPY . .
-
-# Build the Node.js app
-RUN npm run build
-
-# Use a clean base image (Java + Node.js)
+# Use a clean base image (Java only)
 FROM openjdk:22-jdk-slim
 
 WORKDIR /app
 
-# Copy both Java and Node.js build artifacts
+# Copy the Java build artifacts from the build stage
 COPY --from=build /app/target /app/target
-COPY --from=node-builder /app /app
 
-# Expose the port
+# Expose the port your application will run on
 EXPOSE 8080
 
 # Start the Java application (adjust the path to your JAR file)
