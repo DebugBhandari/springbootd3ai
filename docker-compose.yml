@@ -8,7 +8,7 @@ services:
       - "3004:8080"
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/jwt_security
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/jwt_security
       SPRING_DATASOURCE_USERNAME: Deerock
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}  # Use the environment variable for password
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}        # Use environment variable for Google Client ID
@@ -17,6 +17,8 @@ services:
       STRIPE_PRICE_ID: ${STRIPE_PRICE_ID}  # Use environment variable for Stripe price ID
     depends_on:
       - db
+    networks:
+      - app-network
 
   db:
     image: postgres:13
@@ -26,3 +28,9 @@ services:
       POSTGRES_DB: jwt_security
     ports:
       - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+   app-network:
+     driver: bridge
