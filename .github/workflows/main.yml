@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for Spring Boot Application
+name: springd3 CI/CD Pipeline
 
 on:
   push:
@@ -10,41 +10,73 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout code from GitHub repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Java 22
+      # Step 2: Set up Java
+      - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'  # Use 'temurin' for the JDK distribution
-          java-version: '22'       # Set Java version to 22
+          java-version: '22.0.2' # Specify your Java version
+          distribution: 'temurin' # Use the Temurin distribution
 
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v2
+      # Step 3: Set up Maven
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-      - name: Build Docker image
+      - name: Build Spring Boot application
         run: |
-          docker build -t springd3:latest .
-
-      - name: Push Docker image
+          mvn clean install -DskipTests
+          
+      # Step 4: Build Docker Image for Spring Boot
+      - name: Build Docker Image
         run: |
-          docker tag springd3:latest myrepo/springd3:latest
-          docker push myrepo/springd3:latest
+          docker build -t springd3:latest ./
+          
+      # Step 5: Save Docker Image locally
+      - name: Save Docker Image
+        run: |
+          docker save springd3:latest -o springd3.tar
 
-      - name: Deploy to Production Server
+      # Step 6: Change permissions for the Docker Image file
+      - name: Change permissions for Docker Image file
+        run: |
+          chmod 755 springd3.tar
+
+      # Step 7: Transfer Docker Image file to VPS
+      - name: Transfer Docker Image File to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          port: 22
+          source: |
+            d3ai.tar
+          target: /var/www/springd3.jobd.link
+          key: ${{ secrets.VPS_SSH_KEY }}
+
+      # Step 8: Deploy Spring Boot application to VPS
+      - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /var/www/springd3.jobd.link
+            # Load Docker Images
+            docker load -i /var/www/springd3.jobd.link/d3ai.tar
+
+            # Change directory to where docker-compose.yml is located
+            cd /var/www/springd3.jobd.link/
+
+            # Stop and remove old containers if they exist
             docker-compose down
-            docker-compose up -d --build
-        env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-          STRIPE_PRICE_ID: ${{ secrets.STRIPE_PRICE_ID }}
+
+            # Start new containers with the updated images
+            docker-compose up -d --force-recreate
