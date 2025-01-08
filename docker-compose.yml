@@ -2,35 +2,33 @@ version: '3.8'
 
 services:
   app:
-    image: d3ai:latest
+    image: springd3:latest
     build: .
     ports:
       - "3004:8080"
     environment:
       SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/jwt_security
-      SPRING_DATASOURCE_USERNAME: Deerock
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}  # Use the environment variable for password
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}        # Use environment variable for Google Client ID
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}  # Use environment variable for Google Client Secret
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}  # Use environment variable for Stripe secret key
       STRIPE_PRICE_ID: ${STRIPE_PRICE_ID}  # Use environment variable for Stripe price ID
     depends_on:
-      - db
-    networks:
-      - app-network
+      - postgres-db
+    
 
-  db:
-    image: postgres:13
+  postgres-db:
+    image: postgres:17.2
     environment:
-      POSTGRES_USER: Deerock
+      POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}  # Use environment variable for password
       POSTGRES_DB: jwt_security
     ports:
       - "5432:5432"
-    networks:
-      - app-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "Deerock"]
+      interval: 5s
+      retries: 5
 
-networks:
-   app-network:
-     driver: bridge
