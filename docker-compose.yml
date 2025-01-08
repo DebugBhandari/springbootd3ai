@@ -5,7 +5,7 @@ services:
     image: d3ai:latest
     build: .
     ports:
-      - "8080:8080"
+      - "3004:8080"
     environment:
       SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/jwt_security
