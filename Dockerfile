@@ -1,5 +1,5 @@
 # Use official Maven image (includes JDK and Maven)
-FROM maven:3.3-jdk-8 AS build
+FROM maven:3.9-eclipse-temurin-20-alpine AS build
 
 WORKDIR /app
 
