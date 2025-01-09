@@ -1,6 +1,6 @@
  # Spring Boot Configuration
 spring:
     profiles:
-       active: prod
+       active: dev
     
 
