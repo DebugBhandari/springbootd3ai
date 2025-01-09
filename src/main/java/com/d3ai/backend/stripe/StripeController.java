@@ -36,10 +36,10 @@ public class StripeController {
     @Value("${stripe.price.id}")
     private String stripePriceId;
     
-    @Value("${base.url}")
+    @Value("${spring.baseUrl}")
     private String baseUrl;
 
-    @Value("${client.url}")
+    @Value("${spring.clientUrl}")
     private String clientUrl;
 
     @PostConstruct

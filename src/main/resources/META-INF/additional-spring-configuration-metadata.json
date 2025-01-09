@@ -10,13 +10,13 @@
     "description": "A description for 'stripe.price.id'"
   },
   {
-    "name": "base.url",
+    "name": "spring.baseUrl",
     "type": "java.lang.String",
-    "description": "A description for 'base.url'"
+    "description": "A description for 'spring.baseUrl'"
   },
   {
-    "name": "client.url",
+    "name": "spring.clientUrl",
     "type": "java.lang.String",
-    "description": "A description for 'client.url'"
+    "description": "A description for 'spring.clientUrl'"
   }
 ]}

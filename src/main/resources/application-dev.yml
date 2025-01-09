@@ -2,6 +2,9 @@
 spring:
     main:
       allow-circular-references: true
+    
+    baseUrl: http://localhost:8080
+    clientUrl: http://localhost:8080
     datasource:
         url: jdbc:postgresql://localhost:5432/jwt_security
         driver-class-name: org.postgresql.Driver
@@ -42,7 +45,3 @@ stripe:
     price:
          id: ${STRIPE_PRICE_ID}
 
-base:
-    url: http://localhost:8080
-client:
-    url: http://localhost:8080

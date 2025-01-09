@@ -1,7 +1,7 @@
  # Spring Boot Configuration
 spring:
     profiles:
-       active: prod
+       active: ${SPRING_PROFILES_ACTIVE:prod}
     main:
       allow-circular-references: true
     datasource:
@@ -44,7 +44,3 @@ stripe:
     price:
          id: ${STRIPE_PRICE_ID}
 
-base:
-    url: http://localhost:8080
-client:
-    url: http://localhost:8080

@@ -2,6 +2,9 @@
 spring:
     main:
       allow-circular-references: true
+    
+    baseUrl: https://springd3.jobd.link
+    clientUrl: https://springd3.jobd.link
     datasource:
         url: jdbc:postgresql://postgres-db:5432/jwt_security
         driver-class-name: org.postgresql.Driver
@@ -26,7 +29,7 @@ spring:
                     scope:
                        - email
                        - profile
-                    redirect-uri: "{baseUrl}/login/oauth2/code/google"
+                    redirect-uri: "{base.url}/login/oauth2/code/google"
                     authorization-grant-type: authorization_code
                     client-name: Google
           provider:
@@ -41,11 +44,6 @@ stripe:
         key: ${STRIPE_SECRET_KEY}
     price:
          id: ${STRIPE_PRICE_ID}
-
-base:
-    url: https://springd3.jobd.link
-client:
-    url: https://springd3.jobd.link
 
 server:
     port: 8080
