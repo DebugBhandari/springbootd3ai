@@ -1,28 +1,27 @@
-# Use official Maven image (includes JDK and Maven)
-FROM maven:3.9-eclipse-temurin-20-alpine AS build
+# Use a Maven image to build the application
+FROM maven:3.8.5-openjdk-17 as builder
 
+# Set the working directory
 WORKDIR /app
 
-# Copy pom.xml and download dependencies
+# Copy the Maven project files
 COPY pom.xml .
-RUN mvn dependency:go-offline
-
-# Copy the rest of the project
 COPY src ./src
 
-# Build the Java application
-RUN mvn clean install -DskipTests
+# Build the application
+RUN mvn clean package -DskipTests
 
-# Use a clean base image (Java only)
-FROM openjdk:22-jdk-slim
+# Use a lightweight JDK image to run the app
+FROM openjdk:17-jdk-slim
 
+# Set the working directory
 WORKDIR /app
 
-# Copy the Java build artifacts from the build stage
-COPY --from=build /app/target /app/target
+# Copy the built JAR file from the builder stage
+COPY --from=builder /app/target/*.jar your-app.jar
 
-# Expose the port your application will run on
+# Expose the application port
 EXPOSE 8080
 
-# Start the Java application (adjust the path to your JAR file)
-CMD ["java", "-jar", "/app/target/your-app.jar"]
+# Run the application
+CMD ["java", "-jar", "/app/your-app.jar"]
