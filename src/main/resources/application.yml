@@ -1,7 +1,7 @@
  # Spring Boot Configuration
 spring:
     profiles:
-       active: dev
+       active: prod
     main:
       allow-circular-references: true
     datasource:
