@@ -13,6 +13,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,9 +32,18 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
+    @NotNull(message = "First name is mandatory")
+    @NotBlank(message = "First name is mandatory")
     private String firstname;
+    @NotBlank(message = "Lastname is mandatory")
+    @NotNull(message = "Lastname is mandatory")
     private String lastname;
+    @NotNull(message = "Email is mandatory")
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Invalid email format")
     private String email;
+    @NotNull(message = "Password is mandatory")
+    @NotBlank(message = "Password is mandatory")
     private String password;
     private String stripeCustomerId;
     @Enumerated(EnumType.STRING)
