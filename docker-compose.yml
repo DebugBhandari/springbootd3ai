@@ -7,6 +7,7 @@ services:
     ports:
       - "3004:8080"
     environment:
+      SPRING_BASE_URL: https://springd3.jobd.link
       SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/jwt_security
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
