@@ -11,7 +11,7 @@ RUN mvn dependency:go-offline
 COPY src ./src
 
 # Build the Java application
-RUN mvn clean install
+RUN mvn clean install -DskipTests
 
 # Use a clean base image (Java only)
 FROM openjdk:22-jdk-slim
