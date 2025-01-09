@@ -70,7 +70,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             # Load Docker Images
-            docker load -i /var/www/springd3.jobd.link/d3ai.tar
+            docker load -i /var/www/springd3.jobd.link/springd3.tar
 
             # Change directory to where docker-compose.yml is located
             cd /var/www/springd3.jobd.link/
