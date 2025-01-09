@@ -57,7 +57,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           port: 22
           source: |
-            d3ai.tar
+            springd3.tar
           target: /var/www/springd3.jobd.link
           key: ${{ secrets.VPS_SSH_KEY }}
 
