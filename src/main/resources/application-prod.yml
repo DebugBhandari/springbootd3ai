@@ -5,7 +5,7 @@ spring:
     datasource:
         url: jdbc:postgresql://postgres-db:5432/jwt_security
         driver-class-name: org.postgresql.Driver
-        username: Deerock
+        username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
     jpa:
         hibernate:
@@ -46,3 +46,6 @@ base:
     url: https://springd3.jobd.link
 client:
     url: https://springd3.jobd.link
+
+server:
+    port: 8080
